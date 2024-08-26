@@ -2,6 +2,8 @@ import express from 'express';
 import { Server } from 'socket.io';
 import bodyParser from 'body-parser';
 
+import path from 'path';
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -13,6 +15,8 @@ const server = app.listen(8000, '0.0.0.0', () => {
 const io = new Server(server, {
     cors:true,
 });
+
+const __dirname = path.resolve();
 
 const emailToSocketIdMap = new Map();
 const socketIdToEmailMap = new Map();
@@ -46,3 +50,7 @@ io.on('connection', (socket) =>{
 });
 
 
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get('*', (req, res) =>{
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+})
