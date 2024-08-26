@@ -8,13 +8,10 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const server = app.listen(8000, '0.0.0.0', () => {
-  console.log('Server is running on http://0.0.0.0:8000');
+const io = new Server(8000, {
+  cors: true,
 });
 
-const io = new Server(server, {
-    cors:true,
-});
 
 const __dirname = path.resolve();
 
